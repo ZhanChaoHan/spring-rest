@@ -1,0 +1,67 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+	mavenLocal()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
+	mavenCentral()
+}
+
+group = 'com.example'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+ext['spring-restdocs.version'] = '2.0.6.BUILD-SNAPSHOT'
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.atteo:evo-inflector:1.2.1'
+
+	testImplementation 'com.jayway.jsonpath:json-path'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+task(bundleInstall, type: Exec) {
+	workingDir file('slate')
+	executable 'bundle'
+	args 'install'
+}
+
+task(slate, type: Exec) {
+	dependsOn 'bundleInstall', 'test'
+	workingDir file('slate')
+	executable 'bundle'
+	args 'exec', 'middleman', 'build'
+}
+
+build {
+	dependsOn 'slate'
+}
+
+eclipseJdt.onlyIf { false }
+cleanEclipseJdt.onlyIf { false }
