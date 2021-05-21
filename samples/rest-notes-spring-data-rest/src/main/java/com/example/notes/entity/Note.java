@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.notes;
+package com.example.notes.entity;
 
 import java.util.List;
 
@@ -27,16 +27,18 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Tag {
+public class Note {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	private String name;
+	private String title;
 
-	@ManyToMany(mappedBy = "tags")
-	private List<Note> notes;
+	private String body;
+
+	@ManyToMany
+	private List<Tag> tags;
 
 	@JsonIgnore
 	public long getId() {
@@ -47,19 +49,27 @@ public class Tag {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public List<Note> getNotes() {
-		return notes;
+	public String getBody() {
+		return body;
 	}
 
-	public void setNotes(List<Note> notes) {
-		this.notes = notes;
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 }

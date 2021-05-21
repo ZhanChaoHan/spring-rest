@@ -53,6 +53,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.example.notes.dao.NoteRepository;
+import com.example.notes.dao.TagRepository;
+import com.example.notes.entity.Note;
+import com.example.notes.entity.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)

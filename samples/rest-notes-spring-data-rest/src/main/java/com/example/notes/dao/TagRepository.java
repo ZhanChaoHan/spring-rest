@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package com.example.notes;
+package com.example.notes.dao;
 
 import org.springframework.data.repository.CrudRepository;
+
+import com.example.notes.entity.Tag;
 
 public interface TagRepository extends CrudRepository<Tag, Long> {
 
